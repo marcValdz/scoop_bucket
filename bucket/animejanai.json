@@ -1,5 +1,5 @@
 {
-    "version": "3.2.2",
+    "version": "3.3.0",
     "description": "mpv build bundled with AnimeJaNai AI upscaling shaders and enhancements",
     "homepage": "https://github.com/the-database/mpv-upscale-2x_animejanai",
     "license": "GPL-3.0",
@@ -10,18 +10,16 @@
     "architecture": {
         "64bit": {
             "url": [
-                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.2.2/mpv-upscale-2x_animejanai-full-package-3.2.2.7z.001",
-                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.2.2/mpv-upscale-2x_animejanai-full-package-3.2.2.7z.002"
+                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.3.0/mpv-upscale-2x_animejanai-full-package-3.3.0.7z.001",
+                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.3.0/mpv-upscale-2x_animejanai-full-package-3.3.0.7z.002"
             ],
             "hash": [
-                "sha256:41e63278f42eadde64b6551dc0daea8c43dfc1343d486d827dd508ea1d204abb",
-                "sha256:be243ebd9fed387b393d3122c6e359cb39d8e7cf6a16a1e44ea27d46e8c0dddb"
+                "24f6539c831955b8ccb0d80b89c237c474aad58cd249671e5d93c884292686b6",
+                "bd284565aef62be72bf3a8cc7cb210889ff837f3c62f214b38fb2de1972aba17"
             ]
         }
     },
-    "depends": [
-        "7zip"
-    ],
+    "depends": "7zip",
     "pre_install": [
         "$archive = Get-ChildItem \"$cachedir\\animejanai*3.2.2*.001\" | Select-Object -First 1",
         "if (-not $archive) { throw \"[AnimeJaNai] Split archive (.7z.001) not found in '$cachedir'. Download may have failed.\" }",
@@ -46,9 +44,7 @@
             "if ($tmpFiles) { $tmpFiles | Remove-Item -Force }"
         ]
     },
-    "bin": [
-        "mpvnet.exe"
-    ],
+    "bin": "mpvnet.exe",
     "shortcuts": [
         [
             "mpvnet.exe",
