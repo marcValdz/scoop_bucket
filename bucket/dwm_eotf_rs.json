@@ -1,12 +1,12 @@
 {
-    "version": "0.14.0",
+    "version": "0.14.1",
     "description": "dwm_eotf_rs",
     "homepage": "https://github.com/SERGEYDJUM/dwm_eotf_rs",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/SERGEYDJUM/dwm_eotf_rs/releases/download/v0.14.0/dwm_eotf_rs.exe",
-            "hash": "cedbeaa8b62ec49a172800ad70105bca457a3f36e72e88f88e2d08abaf869fdb"
+            "url": "https://github.com/SERGEYDJUM/dwm_eotf_rs/releases/download/v0.14.1/dwm_eotf_rs.exe",
+            "hash": "126672c419283fd93c7cc3826ca2b58c010a2421da22a01a22efa253844ca852"
         }
     },
     "bin": "dwm_eotf_rs.exe",
