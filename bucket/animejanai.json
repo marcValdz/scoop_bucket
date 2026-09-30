@@ -15,13 +15,6 @@
         }
     },
     "depends": "7zip",
-    "pre_install": [
-        "$archive = Get-ChildItem \"$cachedir\\animejanai*.7z.001\" | Select-Object -First 1",
-        "if (-not $archive) { throw \"[AnimeJaNai] Split archive (.7z.001) not found in '$cachedir'. Download may have failed.\" }",
-        "Write-Host \"Extracting $($archive.Name)...\"",
-        "7z x $archive.FullName -o\"$dir\" -y",
-        "if ($LASTEXITCODE -ne 0) { throw \"[AnimeJaNai] 7-Zip extraction failed with exit code $LASTEXITCODE.\" }"
-    ],
     "installer": {
         "script": [
             "$folders = @(Get-ChildItem $dir | Where-Object { $_.PSIsContainer })",
@@ -55,7 +48,7 @@
     "uninstaller": {
         "script": [
             "Write-Host \"Cleaning up AnimeJaNai temporary files...\"",
-            "$tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai*.7z.*' -ErrorAction SilentlyContinue",
+            "$tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai#*.001' -ErrorAction SilentlyContinue",
             "if ($tmpFiles) { $tmpFiles | Remove-Item -Force }"
         ]
     },
