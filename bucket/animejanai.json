@@ -1,27 +1,22 @@
 {
-    "version": "3.3.0",
+    "version": "3.6.3",
     "description": "mpv build bundled with AnimeJaNai AI upscaling shaders and enhancements",
-    "homepage": "https://github.com/the-database/mpv-upscale-2x_animejanai",
+    "homepage": "https://github.com/the-database/mpv-AnimeJaNai",
     "license": "GPL-3.0",
     "notes": [
-        "Configuration is persisted in portable_config.",
-        "AnimeJaNai data is persisted across updates."
+        "User settings, models and portable_config are persisted across updates.",
+        "On update, scripts, shaders, mpv-animejanai.conf and input-animejanai.conf are refreshed from the release; put your own mpv settings in mpv.conf.",
+        "TensorRT and RIFE components are downloaded via AnimeJaNaiManager and are not persisted."
     ],
     "architecture": {
         "64bit": {
-            "url": [
-                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.3.0/mpv-upscale-2x_animejanai-full-package-3.3.0.7z.001",
-                "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/3.3.0/mpv-upscale-2x_animejanai-full-package-3.3.0.7z.002"
-            ],
-            "hash": [
-                "24f6539c831955b8ccb0d80b89c237c474aad58cd249671e5d93c884292686b6",
-                "bd284565aef62be72bf3a8cc7cb210889ff837f3c62f214b38fb2de1972aba17"
-            ]
+            "url": "https://github.com/the-database/mpv-AnimeJaNai/releases/download/3.6.3/mpv-upscale-2x_animejanai-full-package-3.6.3.7z.001",
+            "hash": "68cf6531e94402a0a39917b8afe141a107d3bc272b31a8c349196419f5b56e5b"
         }
     },
     "depends": "7zip",
     "pre_install": [
-        "$archive = Get-ChildItem \"$cachedir\\animejanai*3.2.2*.001\" | Select-Object -First 1",
+        "$archive = Get-ChildItem \"$cachedir\\animejanai*.7z.001\" | Select-Object -First 1",
         "if (-not $archive) { throw \"[AnimeJaNai] Split archive (.7z.001) not found in '$cachedir'. Download may have failed.\" }",
         "Write-Host \"Extracting $($archive.Name)...\"",
         "7z x $archive.FullName -o\"$dir\" -y",
@@ -34,13 +29,33 @@
             "if ($folders.Count -gt 1) { Write-Warning \"[AnimeJaNai] Multiple subfolders found; using first: $($folders[0].Name)\" }",
             "$folder = $folders[0]",
             "Get-ChildItem $folder.FullName | Move-Item -Destination $dir -Force",
-            "Remove-Item $folder.FullName -Recurse -Force"
+            "Remove-Item $folder.FullName -Recurse -Force",
+            "# Scoop links persisted folders over the new ones, so refresh upstream-managed files inside the persist folder first",
+            "$pc = \"$persist_dir\\portable_config\"",
+            "if (Test-Path $pc) {",
+            "    if (Test-Path \"$pc\\scripts\") { Remove-Item \"$pc\\scripts\" -Recurse -Force }",
+            "    foreach ($item in 'scripts', 'shaders', 'mpv-animejanai.conf', 'input-animejanai.conf') {",
+            "        if (Test-Path \"$dir\\portable_config\\$item\") { Copy-Item \"$dir\\portable_config\\$item\" -Destination $pc -Recurse -Force }",
+            "    }",
+            "    # Seed packaged files missing from the persist folder (fresh persist, or files new in this release); never overwrites",
+            "    Get-ChildItem \"$dir\\portable_config\" -Recurse -File | ForEach-Object {",
+            "        $rel = $_.FullName.Substring(\"$dir\\portable_config\".Length + 1)",
+            "        if (-not (Test-Path \"$pc\\$rel\")) {",
+            "            New-Item -ItemType Directory -Force (Split-Path \"$pc\\$rel\") | Out-Null",
+            "            Copy-Item $_.FullName \"$pc\\$rel\"",
+            "        }",
+            "    }",
+            "}",
+            "$onnx = \"$persist_dir\\animejanai\\onnx\"",
+            "if ((Test-Path $onnx) -and (Test-Path \"$dir\\animejanai\\onnx\")) {",
+            "    Get-ChildItem \"$dir\\animejanai\\onnx\" -Filter '*.onnx' | Copy-Item -Destination $onnx -Force",
+            "}"
         ]
     },
     "uninstaller": {
         "script": [
             "Write-Host \"Cleaning up AnimeJaNai temporary files...\"",
-            "$tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai*3.2.2*.7z.*' -ErrorAction SilentlyContinue",
+            "$tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai*.7z.*' -ErrorAction SilentlyContinue",
             "if ($tmpFiles) { $tmpFiles | Remove-Item -Force }"
         ]
     },
@@ -53,18 +68,18 @@
     ],
     "persist": [
         "portable_config",
-        "animejanai"
+        "animejanai/animejanai.conf",
+        "animejanai/backups",
+        "animejanai/onnx"
     ],
     "checkver": {
-        "github": "https://github.com/the-database/mpv-upscale-2x_animejanai"
+        "url": "https://api.github.com/repos/the-database/mpv-AnimeJaNai/releases",
+        "jsonpath": "$[0].tag_name"
     },
     "autoupdate": {
         "architecture": {
             "64bit": {
-                "url": [
-                    "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/$version/mpv-upscale-2x_animejanai-full-package-$version.7z.001",
-                    "https://github.com/the-database/mpv-upscale-2x_animejanai/releases/download/$version/mpv-upscale-2x_animejanai-full-package-$version.7z.002"
-                ]
+                "url": "https://github.com/the-database/mpv-AnimeJaNai/releases/download/$version/mpv-upscale-2x_animejanai-full-package-$version.7z.001"
             }
         }
     }
