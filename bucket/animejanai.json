@@ -6,7 +6,7 @@
     "notes": [
         "User settings, models and portable_config are persisted across updates.",
         "On update, scripts, shaders, mpv-animejanai.conf and input-animejanai.conf are refreshed from the release; put your own mpv settings in mpv.conf.",
-        "TensorRT and RIFE components are downloaded via AnimeJaNaiManager and are not persisted."
+        "TensorRT kernels and RIFE are downloaded via AnimeJaNaiManager; RIFE is persisted, and the TensorRT runtime and kernels are carried over from the previous version on update."
     ],
     "architecture": {
         "64bit": {
@@ -42,14 +42,34 @@
             "$onnx = \"$persist_dir\\animejanai\\onnx\"",
             "if ((Test-Path $onnx) -and (Test-Path \"$dir\\animejanai\\onnx\")) {",
             "    Get-ChildItem \"$dir\\animejanai\\onnx\" -Filter '*.onnx' | Copy-Item -Destination $onnx -Force",
+            "}",
+            "# Carry over AnimeJaNaiManager downloads (TensorRT runtime + kernels, RIFE) from the previous version so they aren't re-downloaded.",
+            "# The release ships none of these; components.json records what the Manager installed, and it re-prompts if a newer version is required.",
+            "$prev = Get-ChildItem \"$dir\\..\" -Directory | Where-Object { $_.Name -notin @($version, 'current') -and (Test-Path \"$($_.FullName)\\components.json\") } | Sort-Object { try { [version]$_.Name } catch { [version]'0.0' } } -Descending | Select-Object -First 1",
+            "if ($prev -and -not (Test-Path \"$dir\\components.json\")) {",
+            "    $inf = \"$dir\\animejanai\\inference\"",
+            "    foreach ($pattern in 'nvinfer*.dll', 'nvonnxparser*.dll', 'cudart*.dll', 'trtexec.exe', 'CUDA_LICENSE.txt', 'DirectML_LICENSE.txt') {",
+            "        Get-ChildItem \"$($prev.FullName)\\animejanai\\inference\" -Filter $pattern -File | Where-Object { -not (Test-Path \"$inf\\$($_.Name)\") } | Copy-Item -Destination $inf",
+            "    }",
+            "    $rife = \"$persist_dir\\animejanai\\rife\"",
+            "    $prevRife = \"$($prev.FullName)\\animejanai\\rife\"",
+            "    if (-not (Get-ChildItem $rife -Filter '*.onnx' -ErrorAction SilentlyContinue) -and (Test-Path $prevRife) -and -not (Get-Item $prevRife).LinkType) {",
+            "        New-Item -ItemType Directory -Force $rife | Out-Null",
+            "        Copy-Item \"$prevRife\\*\" $rife -Recurse -Force",
+            "    }",
+            "    Copy-Item \"$($prev.FullName)\\components.json\" \"$dir\\components.json\"",
+            "    Write-Host \"[AnimeJaNai] Carried over TensorRT and RIFE components from $($prev.Name)\"",
             "}"
         ]
     },
     "uninstaller": {
         "script": [
-            "Write-Host \"Cleaning up AnimeJaNai temporary files...\"",
-            "$tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai#*.001' -ErrorAction SilentlyContinue",
-            "if ($tmpFiles) { $tmpFiles | Remove-Item -Force }"
+            "# Only on a real uninstall; during an update this would delete the package scoop just downloaded",
+            "if ($cmd -eq 'uninstall') {",
+            "    Write-Host \"Cleaning up AnimeJaNai temporary files...\"",
+            "    $tmpFiles = Get-ChildItem \"$cachedir\" -Filter 'animejanai#*.001' -ErrorAction SilentlyContinue",
+            "    if ($tmpFiles) { $tmpFiles | Remove-Item -Force }",
+            "}"
         ]
     },
     "bin": "mpvnet.exe",
@@ -63,7 +83,8 @@
         "portable_config",
         "animejanai/animejanai.conf",
         "animejanai/backups",
-        "animejanai/onnx"
+        "animejanai/onnx",
+        "animejanai/rife"
     ],
     "checkver": {
         "url": "https://api.github.com/repos/the-database/mpv-AnimeJaNai/releases",
