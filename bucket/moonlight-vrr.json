@@ -1,0 +1,40 @@
+{
+    "version": "6.1.0-vrr18",
+    "description": "Moonlight fork with VRR support, smoother frame pacing and the PyroWave codec.",
+    "homepage": "https://github.com/Nonary/moonlight-qt",
+    "license": "GPL-3.0-only",
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Nonary/moonlight-qt/releases/download/v6.1.0-vrr18/MoonlightPortable-x64-6.1.0-vrr18.zip",
+            "hash": "900bf4e71bd8e4ff0fc7a01cd7ec08f073adc5da03a28d5968356b5dc72c795b"
+        }
+    },
+    "pre_install": [
+        "Rename-Item \"$dir\\portable.dat.inactive\" 'portable.dat'",
+        "if (!(Test-Path \"$persist_dir$($cfg = '/Moonlight Game Streaming Project')\")) { $null = New-Item -ItemType Directory \"$dir$cfg\" }"
+    ],
+    "bin": [
+        [
+            "Moonlight.exe",
+            "moonlight-vrr"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "Moonlight.exe",
+            "Moonlight VRR"
+        ]
+    ],
+    "persist": "Moonlight Game Streaming Project",
+    "checkver": {
+        "github": "https://github.com/Nonary/moonlight-qt",
+        "regex": "tag/v([\\d.]+-vrr[\\d.]+)"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Nonary/moonlight-qt/releases/download/v$version/MoonlightPortable-x64-$version.zip"
+            }
+        }
+    }
+}
