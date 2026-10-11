@@ -1,0 +1,39 @@
+{
+    "version": "0.4.0",
+    "description": "APL dimming compensation with webcam auto calibration. Eliminates OLED panel dimming.",
+    "homepage": "https://github.com/Vestaia/OLED-Anti-Dimming",
+    "license": "GPL-3.0-only",
+    "notes": [
+        "Requires Windows 11 24H2 or later with HDR enabled on the target display.",
+        "Calibration data is stored in %LOCALAPPDATA%\\OledCalibration and is not removed by 'scoop uninstall'.",
+        "Use 'Delete all data' in the app first if you want a clean removal."
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/Vestaia/OLED-Anti-Dimming/releases/download/v0.4.0/OledCalibration.exe",
+            "hash": "9f926a6284863fedf749bd750b5341cf5aeca5f8f0b8fe3e6632ecceeb36482d"
+        }
+    },
+    "bin": [
+        [
+            "OledCalibration.exe",
+            "oled-anti-dimming"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "OledCalibration.exe",
+            "OLED Anti-Dimming"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/Vestaia/OLED-Anti-Dimming"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/Vestaia/OLED-Anti-Dimming/releases/download/v$version/OledCalibration.exe"
+            }
+        }
+    }
+}
