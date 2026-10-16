@@ -1,5 +1,5 @@
 {
-    "version": "0.4.0",
+    "version": "0.4.1",
     "description": "APL dimming compensation with webcam auto calibration. Eliminates OLED panel dimming.",
     "homepage": "https://github.com/Vestaia/OLED-Anti-Dimming",
     "license": "GPL-3.0-only",
@@ -10,8 +10,8 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/Vestaia/OLED-Anti-Dimming/releases/download/v0.4.0/OledCalibration.exe",
-            "hash": "9f926a6284863fedf749bd750b5341cf5aeca5f8f0b8fe3e6632ecceeb36482d"
+            "url": "https://github.com/Vestaia/OLED-Anti-Dimming/releases/download/v0.4.1/OledCalibration.exe",
+            "hash": "059eb61be34794b500ff0a8674b7e7c1695a0d6fd5a70304867de2bb1db71bd8"
         }
     },
     "bin": [
