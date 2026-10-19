@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "description": "Automatic HDR calibration tool for laptop internal displays.",
+    "homepage": "https://github.com/spiwar/LaptopTrueHDR",
+    "license": "MIT",
+    "notes": [
+        "Requires a laptop with an HDR-capable internal display and HDR enabled in Windows.",
+        "Run 'laptoptruehdr' to calibrate, then 'laptoptruehdr --install' to keep it applied at logon.",
+        "Delete any profiles made by the Windows HDR Calibration app first, or it won't work.",
+        "Profile and logs are stored in %LOCALAPPDATA%\\LaptopTrueHDR and are not removed by 'scoop uninstall'."
+    ],
+    "architecture": {
+        "64bit": {
+            "url": "https://github.com/spiwar/LaptopTrueHDR/releases/download/v2.0.0/LaptopTrueHDR.exe",
+            "hash": "a37d533be51a9ff86d7bd9c4f403366f340b58075226b6217dd4479577d72285"
+        }
+    },
+    "pre_uninstall": "if (Test-Path \"$dir\\LaptopTrueHDR.exe\") { Start-Process -Wait -FilePath \"$dir\\LaptopTrueHDR.exe\" -ArgumentList '--uninstall' -ErrorAction SilentlyContinue }",
+    "bin": [
+        [
+            "LaptopTrueHDR.exe",
+            "laptoptruehdr"
+        ]
+    ],
+    "shortcuts": [
+        [
+            "LaptopTrueHDR.exe",
+            "LaptopTrueHDR"
+        ]
+    ],
+    "checkver": {
+        "github": "https://github.com/spiwar/LaptopTrueHDR"
+    },
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://github.com/spiwar/LaptopTrueHDR/releases/download/v$version/LaptopTrueHDR.exe"
+            }
+        }
+    }
+}
