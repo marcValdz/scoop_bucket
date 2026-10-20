@@ -1,19 +1,19 @@
 {
-    "version": "0.3.6",
+    "version": "0.3.7",
     "description": "DSZ - DualSense Zen: a native Windows companion for the DualSense and DualSense Edge with lighting, adaptive triggers, Bluetooth haptics, virtual controllers and per-game profiles.",
     "homepage": "https://github.com/MaximumFreak/dsz",
     "license": "MIT",
     "notes": [
         "Virtual controllers (Xbox 360, DualSense, DualShock 4) optionally require these drivers:",
-        "  - usbip-win2 0.9.7.7 (exactly this version): https://github.com/vadimgrn/usbip-win2/releases/tag/v.0.9.7.7",
+        "  - usbip-win2 0.9.8.1: https://github.com/vadimgrn/usbip-win2/releases/tag/v.0.9.8.1 (0.9.7.7 and 0.9.8.0 also work; avoid 0.9.7.8, which winget installs by default)",
         "  - HidHide 1.5.230: https://github.com/nefarius/HidHide/releases/tag/v1.5.230.0",
         "DSZ can also install either from its Virtual controller page.",
         "Settings, profiles and logs are stored in %APPDATA%\\DSZ."
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/MaximumFreak/dsz/releases/download/v0.3.6/dsz.exe",
-            "hash": "fc3041e8f5763c5261f69fdb65dfe7d7d2b00c4a7bd6d5029cb1a3f80c20a63a"
+            "url": "https://github.com/MaximumFreak/dsz/releases/download/v0.3.7/dsz.exe",
+            "hash": "ef4fea4dcb25a386e63ebb4e50f55c89a36a79b4ee02d1652d425325fa4c26c2"
         }
     },
     "shortcuts": [
