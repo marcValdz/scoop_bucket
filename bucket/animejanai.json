@@ -1,5 +1,5 @@
 {
-    "version": "3.11.0",
+    "version": "3.11.1",
     "description": "mpv build bundled with AnimeJaNai AI upscaling shaders and enhancements",
     "homepage": "https://github.com/the-database/mpv-AnimeJaNai",
     "license": "GPL-3.0",
@@ -10,8 +10,8 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/the-database/mpv-AnimeJaNai/releases/download/3.11.0/mpv-upscale-2x_animejanai-full-package-3.11.0.7z.001",
-            "hash": "e9e9271b555420db87b34227a6da82267f7120502f31663814114f22fb5589ba"
+            "url": "https://github.com/the-database/mpv-AnimeJaNai/releases/download/3.11.1/mpv-upscale-2x_animejanai-full-package-3.11.1.7z.001",
+            "hash": "6fcbd6dd871efb7627e5f56daa975546fd98cd2efc3f8071f95626fc0a6ddcaf"
         }
     },
     "depends": "7zip",
