@@ -1,5 +1,5 @@
 {
-    "version": "0.4.10",
+    "version": "0.4.11",
     "description": "DSZ - DualSense Zen: a native Windows companion for the DualSense and DualSense Edge with lighting, adaptive triggers, Bluetooth haptics, virtual controllers and per-game profiles.",
     "homepage": "https://github.com/MaximumFreak/dsz",
     "license": "MIT",
@@ -12,8 +12,8 @@
     ],
     "architecture": {
         "64bit": {
-            "url": "https://github.com/MaximumFreak/dsz/releases/download/v0.4.10/dsz.exe",
-            "hash": "ced8257e80e79669a7ac9ca14fbd52e8ae30e665097ef24911f7531048525939"
+            "url": "https://github.com/MaximumFreak/dsz/releases/download/v0.4.11/dsz.exe",
+            "hash": "b6dedffe0b0c4f16b973024e96e801a6434a25914ac7e9e678efdd658962acb4"
         }
     },
     "shortcuts": [
